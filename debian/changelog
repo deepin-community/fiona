@@ -1,0 +1,528 @@
+fiona (1.8.20-2) unstable; urgency=medium
+
+  * Team upload.
+  * Set GDAL_ENABLE_DEPRECATED_DRIVER_GTM=YES to fix test failures.
+  * Skip tests/test_drvsupport.py, fails with GDAL 3.3.1.
+    (closes: #992526)
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 20 Aug 2021 11:08:06 +0200
+
+fiona (1.8.20-1) unstable; urgency=medium
+
+  * Team upload.
+  * Move from experimental to unstable.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sun, 15 Aug 2021 14:39:44 +0200
+
+fiona (1.8.20-1~exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Refresh patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 01 Jun 2021 05:42:39 +0200
+
+fiona (1.8.19-1~exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Bump Standards-Version to 4.5.1, no changes.
+  * Update watch file for GitHub URL changes.
+  * Refresh patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Thu, 08 Apr 2021 05:57:31 +0200
+
+fiona (1.8.18-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Bump watch file version to 4.
+  * Add python3-ceritifi to build dependencies.
+  * Refresh patches.
+  * Update lintian overrides.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Wed, 18 Nov 2020 04:24:09 +0100
+
+fiona (1.8.17-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Thu, 10 Sep 2020 05:51:36 +0200
+
+fiona (1.8.16-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sat, 05 Sep 2020 06:45:00 +0200
+
+fiona (1.8.15-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Drop unused lintian overrides.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 04 Sep 2020 06:19:41 +0200
+
+fiona (1.8.14-3) unstable; urgency=medium
+
+  * Team upload.
+  * Also mark test_append_or_driver_error as flaky.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 01 Sep 2020 08:39:46 +0200
+
+fiona (1.8.14-2) unstable; urgency=medium
+
+  * Team upload.
+  * Add patch to mark test_write_or_driver_error as flaky.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 01 Sep 2020 07:32:18 +0200
+
+fiona (1.8.14-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Refresh patches.
+  * Add overrides for package-contains-documentation-outside-usr-share-doc.
+  * Mark patches as Forwarded: not-needed.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 01 Sep 2020 06:08:59 +0200
+
+fiona (1.8.13-3) unstable; urgency=medium
+
+  * Team upload.
+  * Add patch to mark test_mapinfo as flaky.
+    (closes: #964461)
+  * Fix manpage.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 07 Jul 2020 18:43:25 +0200
+
+fiona (1.8.13-2) unstable; urgency=medium
+
+  * Team upload.
+  * Drop Name field from upstream metadata.
+  * Bump Standards-Version to 4.5.0, no changes.
+  * Update watch file to not match post releases.
+  * Bump debhelper compat to 10.
+  * Add upstream patch to fix FTBFS with GDAL 3.1.
+    (closes: #960369)
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 15 May 2020 15:12:39 +0200
+
+fiona (1.8.13-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Thu, 05 Dec 2019 18:08:18 +0100
+
+fiona (1.8.12-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Refresh patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Thu, 05 Dec 2019 14:12:08 +0100
+
+fiona (1.8.11-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Refresh patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 08 Nov 2019 06:39:34 +0100
+
+fiona (1.8.9-2) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Bas Couwenberg ]
+  * Apply patch by Matthias Klose to fix FTBFS with multiple python3 versions.
+    (closes: #943513)
+
+  [ Matthias Klose ]
+  * Call python{version} -m sphinx to build the documentation.
+  * Build the docs in a temporary directory.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 25 Oct 2019 19:55:22 +0200
+
+fiona (1.8.9-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Bump Standards-Version to 4.4.1, no changes.
+  * Drop gdal3.patch, fixed upstream.
+  * Refresh patches.
+  * Add patch to fix clean target.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 22 Oct 2019 06:06:34 +0200
+
+fiona (1.8.8-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 27 Sep 2019 07:37:43 +0200
+
+fiona (1.8.6-3) unstable; urgency=medium
+
+  * Team upload.
+  * Add patch to fix FTBFS with GDAL 3.
+    (closes: #939872)
+
+ -- Bas Couwenberg <sebastic@debian.org>  Wed, 11 Sep 2019 09:39:15 +0200
+
+fiona (1.8.6-2) unstable; urgency=medium
+
+  * Team upload.
+  * Bump Standards-Version to 4.4.0, no changes.
+  * Drop Python 2 support.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sun, 21 Jul 2019 19:51:35 +0200
+
+fiona (1.8.6-1) unstable; urgency=medium
+
+  * Team upload.
+  * Update dh_install override to use --list-missing.
+  * Update gbp.conf to use --source-only-changes by default.
+  * Move from experimental to unstable.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sun, 07 Jul 2019 08:00:48 +0200
+
+fiona (1.8.6-1~exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Ignore test_data_paths.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 19 Mar 2019 06:50:58 +0100
+
+fiona (1.8.5-1~exp1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Bump Standards-Version to 4.3.0, no changes.
+  * Refresh patches.
+  * Add python{,3}-mock to build dependencies.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sat, 16 Mar 2019 08:34:02 +0100
+
+fiona (1.8.4-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 11 Dec 2018 09:48:55 +0100
+
+fiona (1.8.3-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sat, 01 Dec 2018 08:51:27 +0100
+
+fiona (1.8.2-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Tue, 20 Nov 2018 14:57:39 +0100
+
+fiona (1.8.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Refresh patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 16 Nov 2018 06:56:52 +0100
+
+fiona (1.8.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Bump Standards-Version to 4.2.1, no changes.
+  * Use pytest instead of nose.
+  * Refresh patches.
+  * Add python{,3}-{attr,boto3} to build dependencies.
+  * Don't remove fiona/ogrext.pyx in clean target.
+  * Update skipped tests for switch from nose to pytest.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Wed, 31 Oct 2018 20:19:57 +0100
+
+fiona (1.7.13-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Use filter instead of findstring to prevent partial matches.
+  * Bump Standards-Version to 4.2.0, no changes.
+  * Drop autopkgtests to test installability & module import.
+  * Add lintian override for testsuite-autopkgtest-missing.
+  * Update watch file to use releases instead of tags.
+  * Refresh patches.
+  * Exclude test_feature from tests.
+  * Update watch file to limit matches to archive path.
+  * Fix incomplete-creative-commons-license issue.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Wed, 15 Aug 2018 18:20:14 +0200
+
+fiona (1.7.12-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Bump Standards-Version to 4.1.5, no changes.
+  * Use Python 2 sphinx-build for python2 build explicitly.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Wed, 11 Jul 2018 15:19:46 +0200
+
+fiona (1.7.11-3) unstable; urgency=medium
+
+  * Team upload.
+  * Skip tests that fail with GDAL 2.3.0.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Thu, 24 May 2018 20:54:30 +0200
+
+fiona (1.7.11-2) unstable; urgency=medium
+
+  * Team upload.
+  * Skip test_listing tests, causes FTBFS on various architectures.
+  * Drop X-Python-Version field.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sun, 06 May 2018 08:36:54 +0200
+
+fiona (1.7.11-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Strip trailing whitespace from changelog, control & rules files.
+  * Update copyright-format URL to use HTTPS.
+  * Update Vcs-* URLs for Salsa.
+  * Bump Standards-Version to 4.1.4, no changes.
+  * Add module import tests to autopkgtest configuration.
+  * Add upstream metadata.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sat, 05 May 2018 20:58:47 +0200
+
+fiona (1.7.10-1) unstable; urgency=medium
+
+  [ Bas Couwenberg ]
+  * Team upload.
+  * Bump Standards-Version to 4.1.1, no changes.
+  * Add python3-sphinx to build dependencies.
+
+  [ Johan Van de Wauw ]
+  * New upstream version 1.7.10
+
+ -- Johan Van de Wauw <johan@gisky.be>  Thu, 02 Nov 2017 21:39:36 +0100
+
+fiona (1.7.9-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Wed, 23 Aug 2017 16:25:37 +0200
+
+fiona (1.7.8-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Fix SOURCE_DATE_EPOCH use.
+  * Refresh patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Mon, 26 Jun 2017 20:24:52 +0200
+
+fiona (1.7.7-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Add autopkgtest to test installability.
+  * Bump Standards-Version to 4.0.0, no changes.
+  * Enable PIE hardening buildflags.
+  * Use SOURCE_DATE_EPOCH variable instead of dpkg-parsechangelog output.
+  * Move from experimental to unstable.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Mon, 19 Jun 2017 07:46:01 +0200
+
+fiona (1.7.6-1~exp1) experimental; urgency=medium
+
+  * Imported Upstream version 1.7.6
+  * Add dependency to python-enum34
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Fri, 19 May 2017 22:58:19 +0200
+
+fiona (1.7.5-1~exp1) experimental; urgency=medium
+
+  * Imported Upstream version 1.7.5
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Wed, 22 Mar 2017 11:55:09 +0100
+
+fiona (1.7.4-1~exp1) experimental; urgency=medium
+
+  * Imported Upstream version 1.7.4
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Mon, 20 Feb 2017 19:49:22 +0100
+
+fiona (1.7.3-1~exp1) experimental; urgency=medium
+
+  * Imported Upstream version 1.7.3
+  * Bump copyright years
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Tue, 14 Feb 2017 20:20:50 +0100
+
+fiona (1.7.2-1~exp1) experimental; urgency=medium
+
+  * Imported Upstream version 1.7.2
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Tue, 31 Jan 2017 10:06:39 +0100
+
+fiona (1.7.1-1) unstable; urgency=medium
+
+  * Add extra clean targets
+  * New upstream version 1.7.1
+  * Refresh patches
+  * Update d/copyright
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Thu, 17 Nov 2016 22:50:58 +0100
+
+fiona (1.7.0.post2-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream post release.
+  * Drop clean-setup.patch, fixed upstream. Refresh remaining patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Wed, 15 Jun 2016 19:14:05 +0200
+
+fiona (1.7.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Ignore test failures on ppc64 too.
+  * Add patch to not copy GDAL API C files in clean target.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Wed, 15 Jun 2016 14:56:53 +0200
+
+fiona (1.7~b1-3) unstable; urgency=medium
+
+  * Team upload.
+  * Exclude unicode test too.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sat, 11 Jun 2016 21:29:10 +0200
+
+fiona (1.7~b1-2) unstable; urgency=medium
+
+  * Team upload.
+  * Exclude fio_{info,ls} tests causing build failures.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sat, 11 Jun 2016 18:21:40 +0200
+
+fiona (1.7~b1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream pre-release.
+  * Override dh_auto_test to ignore test failures on Hurd & kFreeBSD.
+  * Update watch file to handle pre-releases.
+  * Add python{,3}-munch to build dependencies.
+  * Drop patches applied/included upstream. Refresh remaining patches.
+  * Update watch file to handle more tag conventions in filenamemangle.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sat, 11 Jun 2016 14:30:25 +0200
+
+fiona (1.6.4-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Refresh patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 06 May 2016 01:44:55 +0200
+
+fiona (1.6.3-3) unstable; urgency=medium
+
+  * Team upload.
+  * Bump Standards-Version to 3.9.8, no changes.
+  * Enable all buildflags, except PIE (causes build failure).
+
+ -- Bas Couwenberg <sebastic@debian.org>  Thu, 05 May 2016 12:00:50 +0200
+
+fiona (1.6.3-2) unstable; urgency=medium
+
+  * Team upload.
+  * Update Vcs-Git URL to use HTTPS.
+  * Add patches for GDAL 2.0 support.
+    (closes: #802808)
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sun, 07 Feb 2016 23:28:44 +0100
+
+fiona (1.6.3-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Update Vcs-Browser URL to use HTTPS.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 25 Dec 2015 02:25:10 +0100
+
+fiona (1.6.2-1) unstable; urgency=medium
+
+  * Imported Upstream version 1.6.2
+  * Fix manfile generation with Python 3
+  * Update manfile
+  * Update section for fiona package
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Wed, 23 Sep 2015 23:33:24 +0200
+
+fiona (1.6.1-2) unstable; urgency=medium
+
+  * Add python-click-plugins to fiona dependencies
+  * Correctly use python3 for fiona binary
+  * Add python-click-plugins as B/D + reorder B/D
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Tue, 15 Sep 2015 22:37:31 +0200
+
+fiona (1.6.1-1) unstable; urgency=medium
+
+  [ Bas Couwenberg ]
+  * Add Suggests on fiona-doc to the other binary packages.
+    (closes: #798419)
+
+  [ Johan Van de Wauw ]
+  * Imported Upstream version 1.6.1
+
+ -- Johan Van de Wauw <johan@vandewauw.be>  Mon, 14 Sep 2015 21:23:57 +0200
+
+fiona (1.6.0-1) unstable; urgency=medium
+
+  * Imported Upstream version 1.6.0
+  * Fix patches for new release
+  * Update copyright with contents of CONTRIBUTORS.txt
+  * Rebuild against libstdc++6 and gdal 1.11.2
+
+ -- Johan Van de Wauw <johan.vandewauw@gmail.com>  Sat, 22 Aug 2015 21:41:13 +0200
+
+fiona (1.5.1-2) unstable; urgency=medium
+
+  * Team upload.
+  * Apply patch by Steve Langasek to build-depend on python*-all-dev.
+    (closes: #793645)
+  * Update watch file to handle other tar extensions in filenamemangle.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Sun, 26 Jul 2015 00:33:14 +0200
+
+fiona (1.5.1-1) unstable; urgency=medium
+
+  * Make build reproducible (Closes: #788308)
+  * Imported Upstream version 1.5.1
+
+ -- Johan Van de Wauw <johan.vandewauw@gmail.com>  Wed, 10 Jun 2015 22:01:07 +0200
+
+fiona (1.5.0-2) unstable; urgency=medium
+
+  * Initial upload, after FTP-master comment about missing license
+  * Add license for docs/manual.rst (CC-BY-3.0-US)
+  * Fix compatibility with Cython 0.22
+
+ -- Johan Van de Wauw <johan.vandewauw@gmail.com>  Tue, 02 Jun 2015 19:59:43 +0200
+
+fiona (1.5.0-1) unstable; urgency=medium
+
+  * Initial upload (closes: #765470)
+
+ -- Johan Van de Wauw <johan.vandewauw@gmail.com>  Thu, 05 Feb 2015 16:23:03 +0100

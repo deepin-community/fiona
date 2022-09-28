@@ -1,0 +1,82 @@
+Source: fiona
+Maintainer: Debian GIS Project <pkg-grass-devel@lists.alioth.debian.org>
+Uploaders: Johan Van de Wauw <johan@vandewauw.be>
+Section: python
+Priority: optional
+Build-Depends: debhelper (>= 10~),
+               dh-python,
+               gdal-bin,
+               libgdal-dev,
+               cython3 (>= 0.21),
+               python3-all,
+               python3-all-dev,
+               python3-attr,
+               python3-boto3,
+               python3-certifi,
+               python3-click-plugins,
+               python3-cligj,
+               python3-mock,
+               python3-munch,
+               python3-pytest,
+               python3-setuptools,
+               python3-six,
+               python3-sphinx
+Standards-Version: 4.5.1
+Vcs-Browser: https://salsa.debian.org/debian-gis-team/fiona
+Vcs-Git: https://salsa.debian.org/debian-gis-team/fiona.git
+Homepage: https://github.com/Toblerity/Fiona
+
+Package: python3-fiona
+Architecture: any
+Depends: ${python3:Depends},
+         ${misc:Depends},
+         ${shlibs:Depends}
+Suggests: fiona-doc
+Description: Python 3 API for reading/writing vector geospatial data
+ Fiona is a Python wrapper around the OGR vector data abstraction library.
+ Fiona is designed to be simple and dependable. It focuses on reading
+ and writing data in standard Python IO style and relies upon familiar
+ Python types and protocols such as files, dictionaries, mappings, and
+ iterators instead of classes specific to OGR. Fiona can read and write
+ real-world data using multi-layered GIS formats and zipped virtual
+ file systems and integrates readily with other Python GIS packages
+ such as pyproj, Rtree, and Shapely.
+ .
+ This package provides the Python 3 API
+
+Package: fiona
+Architecture: any
+Section: science
+Depends: python3-fiona (= ${binary:Version}),
+         python3-click-plugins,
+         ${python3:Depends},
+         ${misc:Depends}
+Suggests: fiona-doc
+Description: Command line tool for reading/writing vector geospatial data
+ Fiona is a Python wrapper around the OGR vector data abstraction library.
+ Fiona is designed to be simple and dependable. It focuses on reading
+ and writing data in standard Python IO style and relies upon familiar
+ Python types and protocols such as files, dictionaries, mappings, and
+ iterators instead of classes specific to OGR. Fiona can read and write
+ real-world data using multi-layered GIS formats and zipped virtual
+ file systems and integrates readily with other Python GIS packages
+ such as pyproj, Rtree, and Shapely.
+ .
+ This package provides the fiona command line tools
+
+Package: fiona-doc
+Architecture: all
+Section: doc
+Depends: ${sphinxdoc:Depends},
+         ${misc:Depends}
+Description: Python API for reading/writing vector geospatial data (docs)
+ Fiona is a Python wrapper around the OGR vector data abstraction library.
+ Fiona is designed to be simple and dependable. It focuses on reading
+ and writing data in standard Python IO style and relies upon familiar
+ Python types and protocols such as files, dictionaries, mappings, and
+ iterators instead of classes specific to OGR. Fiona can read and write
+ real-world data using multi-layered GIS formats and zipped virtual
+ file systems and integrates readily with other Python GIS packages
+ such as pyproj, Rtree, and Shapely.
+ .
+ This package contains the html documentation for Fiona.

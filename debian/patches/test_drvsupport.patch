@@ -1,0 +1,23 @@
+Description: Mark test_write_or_driver_error as flaky.
+Author: Bas Couwenberg <sebastic@debian.org>
+Bug: https://github.com/Toblerity/Fiona/issues/935
+Forwarded: not-needed
+
+--- a/tests/test_drvsupport.py
++++ b/tests/test_drvsupport.py
+@@ -16,6 +16,7 @@ def test_geojsonseq(format):
+     assert format in fiona.drvsupport.supported_drivers.keys()
+ 
+ 
++@pytest.mark.xfail(strict=False)
+ @pytest.mark.parametrize('driver', [driver for driver, raw in supported_drivers.items() if 'w' in raw])
+ def test_write_or_driver_error(tmpdir, driver, testdata_generator):
+     """
+@@ -95,6 +96,7 @@ def test_write_does_not_work_when_gdal_s
+                 c.writerecords(records1)
+ 
+ 
++@pytest.mark.xfail(strict=False)
+ @pytest.mark.parametrize('driver', [driver for driver, raw in supported_drivers.items() if 'a' in raw])
+ def test_append_or_driver_error(tmpdir, testdata_generator, driver):
+     """ Test if driver supports append mode.
