@@ -8,7 +8,6 @@ cdef extern from "ogr_core.h":
 
     ctypedef int OGRErr
 
-
 cdef get_last_error_msg()
 cdef int exc_wrap_int(int retval) except -1
 cdef OGRErr exc_wrap_ogrerr(OGRErr retval) except -1

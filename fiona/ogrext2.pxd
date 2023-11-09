@@ -194,11 +194,12 @@ cdef extern from "cpl_string.h":
     char ** CSLSetNameValue (char **list, const char *name, const char *value)
     void CSLDestroy (char **list)
     char ** CSLAddString(char **list, const char *string)
+    int CSLCount(char **papszStrList)
 
 
 cdef extern from "sys/stat.h" nogil:
     struct stat:
-        pass
+        int st_mode
 
 
 cdef extern from "cpl_vsi.h" nogil:
@@ -219,11 +220,13 @@ cdef extern from "cpl_vsi.h" nogil:
     int VSIRmdir(const char *path)
     int VSIFFlushL(VSILFILE *fp)
     size_t VSIFReadL(void *buffer, size_t nSize, size_t nCount, VSILFILE *fp)
+    char** VSIReadDir(const char* pszPath)
     int VSIFSeekL(VSILFILE *fp, vsi_l_offset nOffset, int nWhence)
     vsi_l_offset VSIFTellL(VSILFILE *fp)
     int VSIFTruncateL(VSILFILE *fp, vsi_l_offset nNewSize)
     size_t VSIFWriteL(void *buffer, size_t nSize, size_t nCount, VSILFILE *fp)
     int VSIStatL(const char *pszFilename, VSIStatBufL *psStatBuf)
+    int VSI_ISDIR(int mode)
 
 
 cdef extern from "ogr_srs_api.h":
@@ -295,7 +298,8 @@ cdef extern from "ogr_api.h":
     void *  OGR_G_CreateGeometry (int wkbtypecode)
     void    OGR_G_DestroyGeometry (void *geometry)
     unsigned char *  OGR_G_ExportToJson (void *geometry)
-    void    OGR_G_ExportToWkb (void *geometry, int endianness, char *buffer)
+    OGRErr  OGR_G_ExportToWkb (void *geometry, int endianness, char *buffer)
+    int     OGR_G_GetCoordinateDimension (void *geometry)
     int     OGR_G_GetGeometryCount (void *geometry)
     unsigned char *  OGR_G_GetGeometryName (void *geometry)
     int     OGR_G_GetGeometryType (void *geometry)
@@ -327,6 +331,7 @@ cdef extern from "ogr_api.h":
                 )
     int     OGR_L_TestCapability (void *layer, char *name)
     OGRErr  OGR_L_SetIgnoredFields (void *layer, const char **papszFields)
+    OGRErr  OGR_L_SetAttributeFilter(void *layer, const char*)
     OGRErr  OGR_L_SetNextByIndex (void *layer, long nIndex)
     long long OGR_F_GetFieldAsInteger64 (void *feature, int n)
     void    OGR_F_SetFieldInteger64 (void *feature, int n, long long value)

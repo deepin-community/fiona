@@ -63,10 +63,7 @@ class CPLE_BaseError(Exception):
         self.errmsg = errmsg
 
     def __str__(self):
-        return self.__unicode__()
-
-    def __unicode__(self):
-        return u"{}".format(self.errmsg)
+        return str(self.errmsg)
 
     @property
     def args(self):
@@ -237,11 +234,12 @@ cdef inline object exc_check():
 
 cdef get_last_error_msg():
     """Checks GDAL error stack for the latest error message
+
     Returns
     -------
     An error message or empty string
-    """
 
+    """
     err_msg = CPLGetLastErrorMsg()
 
     if err_msg != NULL:
@@ -277,8 +275,10 @@ cdef OGRErr exc_wrap_ogrerr(OGRErr err) except -1:
     """
     if err == 0:
         return err
-    else:
-        raise CPLE_BaseError(3, err, "OGR Error code {}".format(err))
+    exc = exc_check()
+    if exc:
+        raise exc
+    raise CPLE_BaseError(3, err, "OGR Error code {}".format(err))
 
 
 cdef void *exc_wrap_pointer(void *ptr) except NULL:

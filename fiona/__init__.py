@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Fiona is OGR's neat, nimble API.
 
@@ -8,104 +6,83 @@ source GIS community's most trusted geodata access library and
 integrates readily with other Python GIS packages such as pyproj, Rtree
 and Shapely.
 
-How minimal? Fiona can read features as mappings from shapefiles or
-other GIS vector formats and write mappings as features to files using
-the same formats. That's all. There aren't any feature or geometry
-classes. Features and their geometries are just data.
-
 A Fiona feature is a Python mapping inspired by the GeoJSON format. It
-has `id`, 'geometry`, and `properties` keys. The value of `id` is
-a string identifier unique within the feature's parent collection. The
-`geometry` is another mapping with `type` and `coordinates` keys. The
-`properties` of a feature is another mapping corresponding to its
-attribute table. For example:
+has ``id``, ``geometry``, and ``properties`` attributes. The value of
+``id`` is a string identifier unique within the feature's parent
+collection. The ``geometry`` is another mapping with ``type`` and
+``coordinates`` keys. The ``properties`` of a feature is another mapping
+corresponding to its attribute table.
 
-  {'id': '1',
-   'geometry': {'type': 'Point', 'coordinates': (0.0, 0.0)},
-   'properties': {'label': u'Null Island'} }
+Features are read and written using the ``Collection`` class.  These
+``Collection`` objects are a lot like Python ``file`` objects. A
+``Collection`` opened in reading mode serves as an iterator over
+features. One opened in a writing mode provides a ``write`` method.
 
-is a Fiona feature with a point geometry and one property.
-
-Features are read and written using objects returned by the
-``collection`` function. These ``Collection`` objects are a lot like
-Python ``file`` objects. A ``Collection`` opened in reading mode serves
-as an iterator over features. One opened in a writing mode provides
-a ``write`` method.
-
-Usage
------
-
-Here's an example of reading a select few polygon features from
-a shapefile and for each, picking off the first vertex of the exterior
-ring of the polygon and using that as the point geometry for a new
-feature writing to a "points.shp" file.
-
-  >>> import fiona
-  >>> with fiona.open('docs/data/test_uk.shp', 'r') as inp:
-  ...     output_schema = inp.schema.copy()
-  ...     output_schema['geometry'] = 'Point'
-  ...     with collection(
-  ...             "points.shp", "w",
-  ...             crs=inp.crs,
-  ...             driver="ESRI Shapefile",
-  ...             schema=output_schema
-  ...             ) as out:
-  ...         for f in inp.filter(
-  ...                 bbox=(-5.0, 55.0, 0.0, 60.0)
-  ...                 ):
-  ...             value = f['geometry']['coordinates'][0][0]
-  ...             f['geometry'] = {
-  ...                 'type': 'Point', 'coordinates': value}
-  ...             out.write(f)
-
-Because Fiona collections are context managers, they are closed and (in
-writing modes) flush contents to disk when their ``with`` blocks end.
 """
 
-from contextlib import contextmanager
+import glob
 import logging
 import os
-import sys
-import warnings
+from pathlib import Path
 import platform
-from six import string_types
+import warnings
 
-try:
-    from pathlib import Path
-except ImportError:  # pragma: no cover
-    class Path:
-        pass
-
-# TODO: remove this? Or at least move it, flake8 complains.
-if sys.platform == "win32":
-    libdir = os.path.join(os.path.dirname(__file__), ".libs")
-    os.environ["PATH"] = os.environ["PATH"] + ";" + libdir
-
-import fiona._loading
-with fiona._loading.add_gdal_dll_directories():
-    from fiona.collection import BytesCollection, Collection
-    from fiona.drvsupport import supported_drivers
-    from fiona.env import ensure_env_with_credentials, Env
-    from fiona.errors import FionaDeprecationWarning
-    from fiona._env import driver_count
-    from fiona._env import (
-        calc_gdal_version_num, get_gdal_version_num, get_gdal_release_name,
-        get_gdal_version_tuple)
-    from fiona.compat import OrderedDict
-    from fiona.io import MemoryFile
-    from fiona.ogrext import _bounds, _listlayers, FIELD_TYPES_MAP, _remove, _remove_layer
-    from fiona.path import ParsedPath, parse_path, vsi_path
-    from fiona.vfs import parse_paths as vfs_parse_paths
-    from fiona._show_versions import show_versions
-
-    # These modules are imported by fiona.ogrext, but are also import here to
-    # help tools like cx_Freeze find them automatically
-    from fiona import _geometry, _err, rfc3339
-    import uuid
+if platform.system() == "Windows":
+    _whl_dir = os.path.join(os.path.dirname(__file__), ".libs")
+    if os.path.exists(_whl_dir):
+        os.add_dll_directory(_whl_dir)
+    else:
+        if "PATH" in os.environ:
+            for p in os.environ["PATH"].split(os.pathsep):
+                if glob.glob(os.path.join(p, "gdal*.dll")):
+                    os.add_dll_directory(p)
 
 
-__all__ = ['bounds', 'listlayers', 'open', 'prop_type', 'prop_width']
-__version__ = "1.8.20"
+from fiona._env import (
+    calc_gdal_version_num,
+    get_gdal_release_name,
+    get_gdal_version_num,
+    get_gdal_version_tuple,
+)
+from fiona._env import driver_count
+from fiona._show_versions import show_versions
+from fiona.collection import BytesCollection, Collection
+from fiona.drvsupport import supported_drivers
+from fiona.env import ensure_env_with_credentials, Env
+from fiona.errors import FionaDeprecationWarning
+from fiona.io import MemoryFile
+from fiona.model import Feature, Geometry, Properties
+from fiona.ogrext import (
+    FIELD_TYPES_MAP,
+    _bounds,
+    _listdir,
+    _listlayers,
+    _remove,
+    _remove_layer,
+)
+from fiona.path import ParsedPath, parse_path, vsi_path
+from fiona.vfs import parse_paths as vfs_parse_paths
+
+# These modules are imported by fiona.ogrext, but are also import here to
+# help tools like cx_Freeze find them automatically
+from fiona import _geometry, _err, rfc3339
+import uuid
+
+
+__all__ = [
+    "Feature",
+    "Geometry",
+    "Properties",
+    "bounds",
+    "listlayers",
+    "listdir",
+    "open",
+    "prop_type",
+    "prop_width",
+    "remove",
+]
+
+__version__ = "1.9.5"
 __gdal_version__ = get_gdal_release_name()
 
 gdal_version = get_gdal_version_tuple()
@@ -115,9 +92,20 @@ log.addHandler(logging.NullHandler())
 
 
 @ensure_env_with_credentials
-def open(fp, mode='r', driver=None, schema=None, crs=None, encoding=None,
-         layer=None, vfs=None, enabled_drivers=None, crs_wkt=None,
-         **kwargs):
+def open(
+    fp,
+    mode="r",
+    driver=None,
+    schema=None,
+    crs=None,
+    encoding=None,
+    layer=None,
+    vfs=None,
+    enabled_drivers=None,
+    crs_wkt=None,
+    allow_unsupported_drivers=False,
+    **kwargs
+):
     """Open a collection for read, append, or write
 
     In write mode, a driver name such as "ESRI Shapefile" or "GPX" (see
@@ -147,7 +135,7 @@ def open(fp, mode='r', driver=None, schema=None, crs=None, encoding=None,
 
     The drivers used by Fiona will try to detect the encoding of data
     files. If they fail, you may provide the proper ``encoding``, such
-    as 'Windows-1252' for the Natural Earth datasets.
+    as 'Windows-1252' for the original Natural Earth datasets.
 
     When the provided path is to a file containing multiple named layers
     of data, a layer can be singled out by ``layer``.
@@ -192,6 +180,17 @@ def open(fp, mode='r', driver=None, schema=None, crs=None, encoding=None,
     crs_wkt : str
         An optional WKT representation of a coordinate reference
         system.
+    ignore_fields : list
+        List of field names to ignore on load.
+    ignore_geometry : bool
+        Ignore the geometry on load.
+    include_fields : list
+        List of a subset of field names to include on load.
+    wkt_version : fiona.enums.WktVersion or str, optional
+        Version to use to for the CRS WKT.
+        Defaults to GDAL's default (WKT1_GDAL for GDAL 3).
+    allow_unsupported_drivers : bool
+        If set to true do not limit GDAL drivers to set set of known working.
     kwargs : mapping
         Other driver-specific parameters that will be interpreted by
         the OGR library as layer creation or opening options.
@@ -199,102 +198,155 @@ def open(fp, mode='r', driver=None, schema=None, crs=None, encoding=None,
     Returns
     -------
     Collection
+
     """
+    if mode == "r" and hasattr(fp, "read"):
+        memfile = MemoryFile(fp.read())
+        colxn = memfile.open(
+            driver=driver,
+            crs=crs,
+            schema=schema,
+            layer=layer,
+            encoding=encoding,
+            enabled_drivers=enabled_drivers,
+            allow_unsupported_drivers=allow_unsupported_drivers,
+            **kwargs
+        )
+        colxn._env.enter_context(memfile)
+        return colxn
 
-    if mode == 'r' and hasattr(fp, 'read'):
+    elif mode == "w" and hasattr(fp, "write"):
+        memfile = MemoryFile()
+        colxn = memfile.open(
+            driver=driver,
+            crs=crs,
+            schema=schema,
+            layer=layer,
+            encoding=encoding,
+            enabled_drivers=enabled_drivers,
+            allow_unsupported_drivers=allow_unsupported_drivers,
+            crs_wkt=crs_wkt,
+            **kwargs
+        )
+        colxn._env.enter_context(memfile)
 
-        @contextmanager
-        def fp_reader(fp):
-            memfile = MemoryFile(fp.read())
-            dataset = memfile.open()
-            try:
-                yield dataset
-            finally:
-                dataset.close()
-                memfile.close()
+        # For the writing case we push an extra callback onto the
+        # ExitStack. It ensures that the MemoryFile's contents are
+        # copied to the open file object.
+        def func(*args, **kwds):
+            memfile.seek(0)
+            fp.write(memfile.read())
 
-        return fp_reader(fp)
+        colxn._env.callback(func)
+        return colxn
 
-    elif mode == 'w' and hasattr(fp, 'write'):
-        if schema:
-            # Make an ordered dict of schema properties.
-            this_schema = schema.copy()
-            this_schema['properties'] = OrderedDict(schema['properties'])
-        else:
-            this_schema = None
+    elif mode == "a" and hasattr(fp, "write"):
+        raise OSError(
+            "Append mode is not supported for datasets in a Python file object."
+        )
 
-        @contextmanager
-        def fp_writer(fp):
-            memfile = MemoryFile()
-            dataset = memfile.open(
-                driver=driver, crs=crs, schema=this_schema, layer=layer,
-                encoding=encoding, enabled_drivers=enabled_drivers,
-                crs_wkt=crs_wkt, **kwargs)
-            try:
-                yield dataset
-            finally:
-                dataset.close()
-                memfile.seek(0)
-                fp.write(memfile.read())
-                memfile.close()
+    # TODO: test for a shared base class or abstract type.
+    elif isinstance(fp, MemoryFile):
+        if mode.startswith("r"):
+            colxn = fp.open(
+                driver=driver,
+                allow_unsupported_drivers=allow_unsupported_drivers,
+                **kwargs
+            )
 
-        return fp_writer(fp)
+        # Note: FilePath does not support writing and an exception will
+        # result from this.
+        elif mode.startswith("w"):
+            colxn = fp.open(
+                driver=driver,
+                crs=crs,
+                schema=schema,
+                layer=layer,
+                encoding=encoding,
+                enabled_drivers=enabled_drivers,
+                allow_unsupported_drivers=allow_unsupported_drivers,
+                crs_wkt=crs_wkt,
+                **kwargs
+            )
+        return colxn
 
+    # At this point, the fp argument is a string or path-like object
+    # which can be converted to a string.
     else:
         # If a pathlib.Path instance is given, convert it to a string path.
         if isinstance(fp, Path):
             fp = str(fp)
 
         if vfs:
-            warnings.warn("The vfs keyword argument is deprecated. Instead, pass a URL that uses a zip or tar (for example) scheme.", FionaDeprecationWarning, stacklevel=2)
+            warnings.warn(
+                "The vfs keyword argument is deprecated and will be removed in version 2.0.0. Instead, pass a URL that uses a zip or tar (for example) scheme.",
+                FionaDeprecationWarning,
+                stacklevel=2,
+            )
             path, scheme, archive = vfs_parse_paths(fp, vfs=vfs)
             path = ParsedPath(path, archive, scheme)
         else:
             path = parse_path(fp)
 
-        if mode in ('a', 'r'):
-            c = Collection(path, mode, driver=driver, encoding=encoding,
-                           layer=layer, enabled_drivers=enabled_drivers, **kwargs)
-        elif mode == 'w':
-            if schema:
-                # Make an ordered dict of schema properties.
-                this_schema = schema.copy()
-                if 'properties' in schema:
-                    this_schema['properties'] = OrderedDict(schema['properties'])
-                else:
-                    this_schema['properties'] = OrderedDict()
-
-                if 'geometry' not in this_schema:
-                    this_schema['geometry'] = None
-
-            else:
-                this_schema = None
-            c = Collection(path, mode, crs=crs, driver=driver, schema=this_schema,
-                           encoding=encoding, layer=layer, enabled_drivers=enabled_drivers, crs_wkt=crs_wkt,
-                           **kwargs)
+        if mode in ("a", "r"):
+            colxn = Collection(
+                path,
+                mode,
+                driver=driver,
+                encoding=encoding,
+                layer=layer,
+                enabled_drivers=enabled_drivers,
+                allow_unsupported_drivers=allow_unsupported_drivers,
+                **kwargs
+            )
+        elif mode == "w":
+            colxn = Collection(
+                path,
+                mode,
+                crs=crs,
+                driver=driver,
+                schema=schema,
+                encoding=encoding,
+                layer=layer,
+                enabled_drivers=enabled_drivers,
+                crs_wkt=crs_wkt,
+                allow_unsupported_drivers=allow_unsupported_drivers,
+                **kwargs
+            )
         else:
-            raise ValueError(
-                "mode string must be one of 'r', 'w', or 'a', not %s" % mode)
+            raise ValueError("mode string must be one of {'r', 'w', 'a'}")
 
-        return c
+        return colxn
 
 
 collection = open
 
 
+@ensure_env_with_credentials
 def remove(path_or_collection, driver=None, layer=None):
-    """Deletes an OGR data source
+    """Delete an OGR data source or one of its layers.
 
-    The required ``path`` argument may be an absolute or relative file path.
-    Alternatively, a Collection can be passed instead in which case the path
-    and driver are automatically determined. Otherwise the ``driver`` argument
-    must be specified.
+    If no layer is specified, the entire dataset and all of its layers
+    and associated sidecar files will be deleted.
 
-    Raises a ``RuntimeError`` if the data source cannot be deleted.
+    Parameters
+    ----------
+    path_or_collection : str, pathlib.Path, or Collection
+        The target Collection or its path.
+    driver : str, optional
+        The name of a driver to be used for deletion, optional. Can
+        usually be detected.
+    layer : str or int, optional
+        The name or index of a specific layer.
 
-    Example usage:
+    Returns
+    -------
+    None
 
-      fiona.remove('test.shp', 'ESRI Shapefile')
+    Raises
+    ------
+    DatasetDeleteError
+        If the data source cannot be deleted.
 
     """
     if isinstance(path_or_collection, Collection):
@@ -302,6 +354,8 @@ def remove(path_or_collection, driver=None, layer=None):
         path = collection.path
         driver = collection.driver
         collection.close()
+    elif isinstance(path_or_collection, Path):
+        path = str(path_or_collection)
     else:
         path = path_or_collection
     if layer is None:
@@ -311,58 +365,113 @@ def remove(path_or_collection, driver=None, layer=None):
 
 
 @ensure_env_with_credentials
-def listlayers(fp, vfs=None):
-    """List layer names in their index order
+def listdir(fp):
+    """Lists the datasets in a directory or archive file.
+
+    Archive files must be prefixed like "zip://" or "tar://".
 
     Parameters
     ----------
-    fp : URI (str or pathlib.Path), or file-like object
-        A dataset resource identifier or file object.
-    vfs : str
-        This is a deprecated parameter. A URI scheme such as "zip://"
-        should be used instead.
+    fp : str or pathlib.Path
+        Directory or archive path.
 
     Returns
     -------
-    list
+    list of str
+        A list of datasets.
+
+    Raises
+    ------
+    TypeError
+        If the input is not a str or Path.
+
+    """
+    if isinstance(fp, Path):
+        fp = str(fp)
+
+    if not isinstance(fp, str):
+        raise TypeError("invalid path: %r" % fp)
+
+    pobj = parse_path(fp)
+    return _listdir(vsi_path(pobj))
+
+
+@ensure_env_with_credentials
+def listlayers(fp, vfs=None, **kwargs):
+    """Lists the layers (collections) in a dataset.
+
+    Archive files must be prefixed like "zip://" or "tar://".
+
+    Parameters
+    ----------
+    fp : str, pathlib.Path, or file-like object
+        A dataset identifier or file object containing a dataset.
+    vfs : str
+        This is a deprecated parameter. A URI scheme such as "zip://"
+        should be used instead.
+    kwargs : dict
+        Dataset opening options and other keyword args.
+
+    Returns
+    -------
+    list of str
         A list of layer name strings.
+
+    Raises
+    ------
+    TypeError
+        If the input is not a str, Path, or file object.
 
     """
     if hasattr(fp, 'read'):
-
         with MemoryFile(fp.read()) as memfile:
-            return  _listlayers(memfile.name)
-
+            return _listlayers(memfile.name, **kwargs)
     else:
-
         if isinstance(fp, Path):
             fp = str(fp)
 
-        if not isinstance(fp, string_types):
+        if not isinstance(fp, str):
             raise TypeError("invalid path: %r" % fp)
-        if vfs and not isinstance(vfs, string_types):
+        if vfs and not isinstance(vfs, str):
             raise TypeError("invalid vfs: %r" % vfs)
 
         if vfs:
-            warnings.warn("The vfs keyword argument is deprecated. Instead, pass a URL that uses a zip or tar (for example) scheme.", FionaDeprecationWarning, stacklevel=2)
+            warnings.warn(
+                "The vfs keyword argument is deprecated and will be removed in 2.0. "
+                "Instead, pass a URL that uses a zip or tar (for example) scheme.",
+                FionaDeprecationWarning,
+                stacklevel=2,
+            )
             pobj_vfs = parse_path(vfs)
             pobj_path = parse_path(fp)
             pobj = ParsedPath(pobj_path.path, pobj_vfs.path, pobj_vfs.scheme)
         else:
             pobj = parse_path(fp)
 
-        return _listlayers(vsi_path(pobj))
+        return _listlayers(vsi_path(pobj), **kwargs)
 
 
 def prop_width(val):
     """Returns the width of a str type property.
 
-    Undefined for non-str properties. Example:
+    Undefined for non-str properties.
 
-      >>> prop_width('str:25')
-      25
-      >>> prop_width('str')
-      80
+    Parameters
+    ----------
+    val : str
+        A type:width string from a collection schema.
+
+    Returns
+    -------
+    int or None
+
+    Examples
+    --------
+    >>> prop_width('str:25')
+    25
+    >>> prop_width('str')
+    80
+
     """
     if val.startswith('str'):
         return int((val.split(":")[1:] or ["80"])[0])
@@ -372,12 +481,23 @@ def prop_width(val):
 def prop_type(text):
     """Returns a schema property's proper Python type.
 
-    Example:
+    Parameters
+    ----------
+    text : str
+        A type name, with or without width.
 
-      >>> prop_type('int')
-      <class 'int'>
-      >>> prop_type('str:25')
-      <class 'str'>
+    Returns
+    -------
+    obj
+        A Python class.
+
+    Examples
+    --------
+    >>> prop_type('int')
+    <class 'int'>
+    >>> prop_type('str:25')
+    <class 'str'>
+
     """
     key = text.split(':')[0]
     return FIELD_TYPES_MAP[key]

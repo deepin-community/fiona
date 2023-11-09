@@ -1,6 +1,6 @@
 """Coordinate reference systems and functions
 
-PROJ.4 is the law of this land: http://proj.osgeo.org/. But whereas PROJ.4
+PROJ is the law of this land: https://proj.org/. But whereas PROJ
 coordinate reference systems are described by strings of parameters such as
 
     +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs
@@ -69,7 +69,7 @@ def from_epsg(code):
 
 # Below is the big list of PROJ4 parameters from
 # http://trac.osgeo.org/proj/wiki/GenParms.
-# It is parsed into a list of paramter keys ``all_proj_keys``.
+# It is parsed into a list of parameter keys ``all_proj_keys``.
 
 _param_data = """
 +a         Semimajor radius of the ellipsoid axis

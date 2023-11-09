@@ -1,0 +1,6 @@
+*-info/
+fiona/*.c
+fiona/*.cpp
+fiona/*.so
+gdal-config.txt
+VERSION.txt

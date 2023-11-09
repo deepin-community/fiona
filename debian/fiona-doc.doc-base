@@ -5,5 +5,5 @@ Abstract: Documentation for Fiona
 Section: Science/Geoscience
 
 Format: HTML
-Index: /usr/share/doc/fiona-doc/index.html
-Files: /usr/share/doc/fiona-doc/*.html
+Index: /usr/share/doc/fiona/index.html
+Files: /usr/share/doc/fiona/*.html

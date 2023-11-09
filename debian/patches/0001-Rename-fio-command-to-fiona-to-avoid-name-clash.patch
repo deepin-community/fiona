@@ -1,20 +1,16 @@
-From: Johan Van de Wauw <johan.vandewauw@gmail.com>
-Date: Fri, 24 Oct 2014 21:09:21 +0200
-Subject: Rename fio command to fiona to avoid name clash
+Description: Rename fio command to fiona to avoid name clash
+ There is already another package providing a binary "fio" (fio).
+Author: Johan Van de Wauw <johan.vandewauw@gmail.com>
+Forwarded: not-needed
 
-There is already another package providing a binary "fio" (fio).
----
- setup.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/setup.py
-+++ b/setup.py
-@@ -325,7 +325,7 @@ setup_args = dict(
-     packages=['fiona', 'fiona.fio'],
-     entry_points='''
-         [console_scripts]
--        fio=fiona.fio.main:main_group
-+        fiona=fiona.fio.main:main_group
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -56,7 +56,7 @@ test = [
+ ]
  
-         [fiona.fio_commands]
-         bounds=fiona.fio.bounds:bounds
+ [project.scripts]
+-fio = "fiona.fio.main:main_group"
++fiona = "fiona.fio.main:main_group"
+ 
+ [project.entry-points."fiona.fio_commands"]
+ bounds = "fiona.fio.bounds:bounds"
