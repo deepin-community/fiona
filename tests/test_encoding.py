@@ -1,4 +1,3 @@
-# coding=utf-8
 """Encoding tests"""
 
 from glob import glob
@@ -32,7 +31,7 @@ def test_broken_encoding(gre_shp_cp1252):
     with fiona.open(str(gre_shp_cp1252)) as src:
         assert src.session._get_internal_encoding() == 'utf-8'
         feat = next(iter(src))
-        assert feat['properties']['name_ru'] != u'Гренада'
+        assert feat['properties']['name_ru'] != 'Гренада'
 
 
 @requires_gdal2
@@ -42,7 +41,7 @@ def test_cpg_encoding(gre_shp_cp1252):
     with fiona.open(str(gre_shp_cp1252)) as src:
         assert src.session._get_internal_encoding() == 'utf-8'
         feat = next(iter(src))
-        assert feat['properties']['name_ru'] == u'Гренада'
+        assert feat['properties']['name_ru'] == 'Гренада'
 
 
 @requires_gdal2
@@ -50,4 +49,4 @@ def test_override_encoding(gre_shp_cp1252):
     """utf-8 override succeeds"""
     with fiona.open(str(gre_shp_cp1252), encoding='utf-8') as src:
         assert src.session._get_internal_encoding() == 'utf-8'
-        assert next(iter(src))['properties']['name_ru'] == u'Гренада'
+        assert next(iter(src))['properties']['name_ru'] == 'Гренада'

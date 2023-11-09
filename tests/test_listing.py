@@ -1,14 +1,14 @@
 """Test listing a datasource's layers."""
 
-import logging
-import sys
+from pathlib import Path
 import os
 
 import pytest
 
 import fiona
 import fiona.ogrext
-from fiona.errors import DriverError, FionaDeprecationWarning
+from fiona.errors import DriverError, FionaDeprecationWarning, FionaValueError
+from fiona.io import ZipMemoryFile
 
 
 def test_single_file_private(path_coutwildrnp_shp):
@@ -31,11 +31,11 @@ def test_directory_trailing_slash(data_dir):
 
 def test_zip_path(path_coutwildrnp_zip):
     assert fiona.listlayers(
-        'zip://{}'.format(path_coutwildrnp_zip)) == ['coutwildrnp']
+        f'zip://{path_coutwildrnp_zip}') == ['coutwildrnp']
 
 
 def test_zip_path_arch(path_coutwildrnp_zip):
-    vfs = 'zip://{}'.format(path_coutwildrnp_zip)
+    vfs = f'zip://{path_coutwildrnp_zip}'
     with pytest.warns(FionaDeprecationWarning):
         assert fiona.listlayers('/coutwildrnp.shp', vfs=vfs) == ['coutwildrnp']
 
@@ -62,6 +62,11 @@ def test_invalid_path_ioerror():
         fiona.listlayers("foobar")
 
 
+def test_path_object(path_coutwildrnp_shp):
+    path_obj = Path(path_coutwildrnp_shp)
+    assert fiona.listlayers(path_obj) == ['coutwildrnp']
+
+
 def test_listing_file(path_coutwildrnp_json):
     """list layers from an open file object"""
     with open(path_coutwildrnp_json, "rb") as f:
@@ -72,3 +77,44 @@ def test_listing_pathobj(path_coutwildrnp_json):
     """list layers from a Path object"""
     pathlib = pytest.importorskip("pathlib")
     assert len(fiona.listlayers(pathlib.Path(path_coutwildrnp_json))) == 1
+
+
+def test_listdir_path(path_coutwildrnp_zip):
+    """List directories in a path"""
+    assert sorted(fiona.listdir("zip://{}".format(path_coutwildrnp_zip))) == [
+        "coutwildrnp.dbf",
+        "coutwildrnp.prj",
+        "coutwildrnp.shp",
+        "coutwildrnp.shx",
+    ]
+
+
+def test_listdir_path_not_existing(data_dir):
+    """Test listing of a non existent directory"""
+    path = os.path.join(data_dir, "does_not_exist.zip")
+    with pytest.raises(FionaValueError):
+        fiona.listdir(path)
+
+
+def test_listdir_invalid_path():
+    """List directories with invalid path"""
+    with pytest.raises(TypeError):
+        assert fiona.listdir(1)
+
+
+def test_listdir_file(path_coutwildrnp_zip):
+    """Test list directories of a file"""
+    with pytest.raises(FionaValueError):
+        fiona.listdir(f"zip://{path_coutwildrnp_zip}/coutwildrnp.shp")
+
+
+def test_listdir_zipmemoryfile(bytes_coutwildrnp_zip):
+    """Test list directories of a zipped memory file."""
+    with ZipMemoryFile(bytes_coutwildrnp_zip) as memfile:
+        print(memfile.name)
+        assert sorted(fiona.listdir(memfile.name)) == [
+            "coutwildrnp.dbf",
+            "coutwildrnp.prj",
+            "coutwildrnp.shp",
+            "coutwildrnp.shx",
+        ]

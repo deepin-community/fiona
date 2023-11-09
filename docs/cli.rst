@@ -86,7 +86,7 @@ cat
 
 The cat command concatenates the features of one or more datasets and prints
 them as a `JSON text sequence
-<http://tools.ietf.org/html/draft-ietf-json-text-sequence-07>`__ of features.
+<https://datatracker.ietf.org/doc/html/rfc7464>`__ of features.
 In other words: GeoJSON feature objects, possibly pretty printed, optionally
 separated by ASCII RS (\x1e) chars using `--rs`.
 
@@ -103,6 +103,14 @@ concatenated datasets.
     48
 
 New in 1.4.0.
+
+The cat command provides optional methods to filter data, which are
+different to the ``fio filter`` tool.
+A bounding box ``--bbox w,s,e,n`` tests for a spatial intersection with
+the geometries. An attribute filter ``--where TEXT`` can use
+an `SQL WHERE clause <https://gdal.org/user/ogr_sql_dialect.html#where>`__.
+If more than one datasets is passed to ``fio cat``, the attributes used
+in the WHERE clause must be valid for each dataset.
 
 collect
 -------
@@ -285,6 +293,9 @@ Otherwise, the feature is excluded from the output.
 
 Would create a geojson file with only those features from `data.shp` where the
 area was over a given threshold.
+
+Note this tool is different than ``fio cat --where TEXT ...``, which provides
+SQL WHERE clause filtering of feature attributes.
 
 rm
 --
