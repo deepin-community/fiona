@@ -1,3 +1,17 @@
+fiona (1.9.6-1) unstable; urgency=medium
+
+  * Team upload.
+
+  [ Helmut Grohne ]
+  * Improve cross building: Annotate test dependencies <!nocheck>.
+    (Closes: #1059722)
+
+  [ Bas Couwenberg ]
+  * New upstream release.
+  * Refresh patches.
+
+ -- Bas Couwenberg <sebastic@debian.org>  Fri, 08 Mar 2024 05:38:34 +0100
+
 fiona (1.9.5-1) unstable; urgency=medium
 
   * Team upload.

@@ -4,4 +4,4 @@ dversionmangle=s/\+(debian|dfsg|ds|deb)\d*$//,\
 uversionmangle=s/(\d)[_\.\-\+]?((RC|rc|pre|dev|b|beta|a|alpha)\d*)$/$1~$2/,\
 filenamemangle=s/(?:.*?\/)?(?:rel|r|v|fiona)?[\-\_]?(\d\S+)\.(tgz|tbz|txz|(?:tar\.(?:gz|bz2|xz)))/fiona-$1.$2/ \
 https://github.com/Toblerity/Fiona/tags \
-(?:.*?/archive/(?:.*?/)?)?(?:rel|r|v|fiona)?[\-\_]?(\d\S+(?<!post\d)(?<!dev\d)(?<!a\d))\.(?:tgz|tbz|txz|(?:tar\.(?:gz|bz2|xz)))
+(?:.*?/archive/(?:.*?/)?)?(?:rel|r|v|fiona)?[\-\_]?(\d\S+(?<!post\d)(?<!dev\d)(?<!a\d)(?<!\-doc\d))\.(?:tgz|tbz|txz|(?:tar\.(?:gz|bz2|xz)))

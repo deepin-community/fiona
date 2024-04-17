@@ -18,9 +18,9 @@ Build-Depends: debhelper-compat (= 13),
                python3-click-plugins,
                python3-cligj,
                python3-munch,
-               python3-pytest,
+               python3-pytest <!nocheck>,
                python3-setuptools,
-               python3-tz
+               python3-tz <!nocheck>,
 Standards-Version: 4.6.2
 Vcs-Browser: https://salsa.debian.org/debian-gis-team/fiona
 Vcs-Git: https://salsa.debian.org/debian-gis-team/fiona.git
